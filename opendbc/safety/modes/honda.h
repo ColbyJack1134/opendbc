@@ -31,20 +31,13 @@ static bool honda_alt_brake_msg = false;
 static bool honda_fwd_brake = false;
 static bool honda_bosch_long = false;
 static bool honda_bosch_radarless = false;
-<<<<<<< ours
-=======
 static bool honda_bosch_canfd = false;
->>>>>>> theirs
 typedef enum {HONDA_NIDEC, HONDA_BOSCH} HondaHw;
 static HondaHw honda_hw = HONDA_NIDEC;
 
 
 static int honda_get_pt_bus(void) {
-<<<<<<< ours
-  return ((honda_hw == HONDA_BOSCH) && !honda_bosch_radarless) ? 1 : 0;
-=======
   return ((honda_hw == HONDA_BOSCH) && !honda_bosch_radarless && !honda_bosch_canfd) ? 1 : 0;
->>>>>>> theirs
 }
 
 static uint32_t honda_get_checksum(const CANPacket_t *to_push) {
@@ -117,7 +110,6 @@ static void honda_rx_hook(const CANPacket_t *to_push) {
   if (((addr == 0x1A6) || (addr == 0x296)) && (bus == pt_bus)) {
     int button = (GET_BYTE(to_push, 0) & 0xE0U) >> 5;
 
-<<<<<<< ours
     int cruise_setting = (GET_BYTE(to_push, (addr == 0x296) ? 0U : 5U) & 0x0CU) >> 2U;
     if (cruise_setting == 1) {
       mads_button_press = MADS_BUTTON_PRESSED;
@@ -126,8 +118,6 @@ static void honda_rx_hook(const CANPacket_t *to_push) {
     } else {
     }
 
-=======
->>>>>>> theirs
     // enter controls on the falling edge of set or resume
     bool set = (button != HONDA_BTN_SET) && (cruise_button_prev == HONDA_BTN_SET);
     bool res = (button != HONDA_BTN_RESUME) && (cruise_button_prev == HONDA_BTN_RESUME);
@@ -262,11 +252,7 @@ static bool honda_tx_hook(const CANPacket_t *to_send) {
 
   // STEER: safety check
   if ((addr == 0xE4) || (addr == 0x194)) {
-<<<<<<< ours
     if (!(controls_allowed || mads_is_lateral_control_allowed_by_mads())) {
-=======
-    if (!controls_allowed) {
->>>>>>> theirs
       bool steer_applied = GET_BYTE(to_send, 0) | GET_BYTE(to_send, 1);
       if (steer_applied) {
         tx = false;
@@ -316,10 +302,7 @@ static safety_config honda_nidec_init(uint16_t param) {
   honda_alt_brake_msg = false;
   honda_bosch_long = false;
   honda_bosch_radarless = false;
-<<<<<<< ours
-=======
   honda_bosch_canfd = false;
->>>>>>> theirs
 
   safety_config ret;
 
@@ -353,11 +336,7 @@ static safety_config honda_bosch_init(uint16_t param) {
   static CanMsg HONDA_BOSCH_TX_MSGS[] = {{0xE4, 0, 5, .check_relay = true}, {0xE5, 0, 8, .check_relay = true},
                                          // Send buttons on powertrain bus: 0 for Bosch CAN FD, 1 for CAN
                                          {0x296, 0, 4, .check_relay = false}, {0x296, 1, 4, .check_relay = false},
-<<<<<<< ours
-                                         {0x33D, 0, 5, .check_relay = true}, {0x33DA, 0, 5, .check_relay = true}, {0x33DB, 0, 8, .check_relay = true}};  // Bosch
-=======
                                          {0x33D, 0, 5, .check_relay = true}, {0x33D, 0, 8, .check_relay = true}, {0x33DA, 0, 5, .check_relay = true}, {0x33DB, 0, 8, .check_relay = true}};  // Bosch
->>>>>>> theirs
 
   static CanMsg HONDA_BOSCH_LONG_TX_MSGS[] = {{0xE4, 1, 5, .check_relay = true}, {0x1DF, 1, 8, .check_relay = true}, {0x1EF, 1, 8, .check_relay = false},
                                               {0x1FA, 1, 8, .check_relay = false}, {0x30C, 1, 8, .check_relay = false}, {0x33D, 1, 5, .check_relay = true},
@@ -371,10 +350,7 @@ static safety_config honda_bosch_init(uint16_t param) {
 
   const uint16_t HONDA_PARAM_ALT_BRAKE = 1;
   const uint16_t HONDA_PARAM_RADARLESS = 8;
-<<<<<<< ours
-=======
   const uint16_t HONDA_PARAM_BOSCH_CANFD = 16;
->>>>>>> theirs
 
   static RxCheck honda_common_alt_brake_rx_checks[] = {
     HONDA_COMMON_RX_CHECKS(0)
@@ -396,11 +372,9 @@ static safety_config honda_bosch_init(uint16_t param) {
     HONDA_COMMON_RX_CHECKS(0)
   };
 
-<<<<<<< ours
   honda_hw = HONDA_BOSCH;
   honda_brake_switch_prev = false;
   honda_bosch_radarless = GET_FLAG(param, HONDA_PARAM_RADARLESS);
-=======
   // Bosch CANFD has powertrain bus on bus 0
   static RxCheck honda_bosch_canfd_rx_checks[] = {
     HONDA_COMMON_RX_CHECKS(0)
@@ -425,13 +399,10 @@ static safety_config honda_bosch_init(uint16_t param) {
     SET_RX_CHECKS(honda_common_alt_brake_rx_checks, ret);
   } else if (honda_bosch_radarless) {
     SET_RX_CHECKS(honda_bosch_radarless_rx_checks, ret);
-<<<<<<< ours
-=======
   } else if (honda_bosch_canfd && honda_alt_brake_msg) {
     SET_RX_CHECKS(honda_common_alt_brake_rx_checks, ret);
   } else if (honda_bosch_canfd) {
     SET_RX_CHECKS(honda_bosch_canfd_rx_checks, ret);
->>>>>>> theirs
   } else if (honda_alt_brake_msg) {
     SET_RX_CHECKS(honda_bosch_alt_brake_rx_checks, ret);
   } else {

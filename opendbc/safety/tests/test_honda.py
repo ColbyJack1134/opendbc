@@ -238,15 +238,11 @@ class HondaBase(common.PandaCarSafetyTest):
     self.assertFalse(self.safety.get_controls_allowed())
 
   def test_steer_safety_check(self):
-<<<<<<< ours
     self._mads_states_cleanup()
-=======
->>>>>>> theirs
     self.safety.set_controls_allowed(0)
     self.assertTrue(self._tx(self._send_steer_msg(0x0000)))
     self.assertFalse(self._tx(self._send_steer_msg(0x1000)))
 
-<<<<<<< ours
   def _lkas_button_msg(self, lkas_button=False, setting_btn=0):
     values = {"CRUISE_SETTING": 1 if lkas_button else setting_btn, "COUNTER": self.cnt_button % 4}
     self.__class__.cnt_button += 1
@@ -290,8 +286,6 @@ class HondaBase(common.PandaCarSafetyTest):
     finally:
       self._mads_states_cleanup()
 
-=======
->>>>>>> theirs
 
 # ********************* Honda Nidec **********************
 
@@ -615,8 +609,6 @@ class TestHondaBoschRadarlessLongSafety(common.LongitudinalAccelSafetyTest, Hond
   def test_spam_cancel_safety_check(self):
     pass
 
-<<<<<<< ours
-=======
 class TestHondaBoschCANFDSafetyBase(TestHondaBoschSafetyBase):
   """Base class for CANFD Honda Bosch"""
   PT_BUS = 0
@@ -652,8 +644,6 @@ class TestHondaBoschCANFDAltBrakeSafety(HondaPcmEnableBase, TestHondaBoschCANFDS
     super().setUp()
     self.safety.set_safety_hooks(CarParams.SafetyModel.hondaBosch, HondaSafetyFlags.BOSCH_CANFD | HondaSafetyFlags.ALT_BRAKE)
     self.safety.init_tests()
-
->>>>>>> theirs
 
 if __name__ == "__main__":
   unittest.main()

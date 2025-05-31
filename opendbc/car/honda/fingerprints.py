@@ -494,8 +494,6 @@ FW_VERSIONS = {
       b'36161-TDK-J530\x00\x00',
     ],
   },
-<<<<<<< ours
-=======
   # mid-model refresh
   CAR.ACURA_MDX_4G_MMR: {
     (Ecu.fwdCamera, 0x18dab5f1, None): [
@@ -505,7 +503,6 @@ FW_VERSIONS = {
       b'8S302-TYA-A020\x00\x00',
     ],
   },
->>>>>>> theirs
   CAR.HONDA_ODYSSEY: {
     (Ecu.gateway, 0x18daeff1, None): [
       b'38897-THR-A010\x00\x00',
@@ -942,11 +939,9 @@ FW_VERSIONS = {
       b'28101-65J-N010\x00\x00',
     ],
   },
-<<<<<<< ours
   CAR.HONDA_PILOT_4G: {
     (Ecu.fwdCamera, 0x18dab5f1, None): [
       b'8S102-T90-A050\x00\x00',
-=======
   CAR.HONDA_ACCORD_11G: {
     (Ecu.fwdRadar, 0x18dab0f1, None): [
       b'8S302-30A-A040\x00\x00',
@@ -959,7 +954,6 @@ FW_VERSIONS = {
     (Ecu.fwdCamera, 0x18dab5f1, None): [
       b'8S102-T90-A050\x00\x00',
       b'8S102-T90-A070\x00\x00',
->>>>>>> theirs
     ],
     (Ecu.fwdRadar, 0x18dab0f1, None): [
       b'8S302-T90-A040\x00\x00',
